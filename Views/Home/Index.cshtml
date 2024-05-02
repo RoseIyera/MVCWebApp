@@ -1,0 +1,162 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">MVC Calculator</h1>
+    @* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">First Value</div>
+    <div class="col-md-9"><input type="text" id="txtval1" class="form-control" /></div>
+</div>
+<div class="row mb-3">
+    <div class="col-md-3">Second Value</div>
+    <div class="col-md-9"><input type="text" id="txtval2" class="form-control" /></div>
+</div>
+<br/>
+<div class="row mb-3">
+    <div class="col-md-3"></div>
+    <div class="col-md-9">
+        <a href="javascript:void(0)" class="btn btn-success" onclick="fnSum()">Addition</a>
+        <a href="javascript:void(0)" class="btn btn-success" onclick="fnSub()">Subtraction</a>
+        <a href="javascript:void(0)" class="btn btn-success" onclick="fnMult()">Multiplication</a>
+        <a href="javascript:void(0)" class="btn btn-success" onclick="fnDiv()">Division</a>
+        <a href="javascript:void(0)" class="btn btn-success" onclick="fnCal()">Calculate</a>
+
+    </div>
+</div>
+<br />
+<div class="row mb-3">
+    <div class="col-md-3"></div>
+    <div class="col-md-9" id="divResult" style="font-size:30px; font-weight:bold;"></div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+    // $(document).ready(function(){
+    //     console.log("Rose");
+    //     alert("Rose");
+    // });
+    function fnCal(a) 
+    { 
+        var x = parseInt($("#txtval1").val());
+        var y = parseInt($("#txtval2").val());
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CalculateNumber","Home")",
+            data: { num1: x, num2: y, "msgs": "Rose" },
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                
+                var msg = "SUM: " + result.addition
+                    + "<br>SUB : " + result.subtract
+                    + "<br>MUL : " + result.multiply
+                    + "<br>DIV : " + result.division;
+                
+                $("#divResult").html(msg);
+            },
+            error: function (req, status, error) 
+            { 
+                $("#divResult").html(error);
+            }
+
+
+
+        });
+
+        //alert(x + y);
+    }
+
+
+    function fnSum() 
+    {
+        var x = parseInt($("#txtval1").val());
+        var y = parseInt($("#txtval2").val());
+
+        $.ajax({
+            type:"POST",
+            url:"@Url.Action("Add","Home")",
+            data: {num1: x, num2:y},
+            dataType:"text",
+            success:function(msg)
+            {
+                console.log(msg);
+                //alert(msg);
+                $("#divResult").html(msg);
+            },
+            error: function (req, status, error) {
+
+            }
+        });
+
+        //var z = x + y;
+        //Below displays the result in the divResult dive
+        //$("#divResult").html(z);
+        //alert(z);
+    }
+
+    function fnSub() {
+        var x = parseInt($("#txtval1").val());
+        var y = parseInt($("#txtval2").val());
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Sub", "Home")",
+            data: { num1: x, num2: y },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+                //alert(msg);
+                $("#divResult").html(msg);
+            },
+            error: function (req, status, error) {
+
+            }
+        });
+    }
+
+    function fnMult() {
+        var x = parseInt($("#txtval1").val());
+        var y = parseInt($("#txtval2").val());
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Mult", "Home")",
+            data: { num1: x, num2: y },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+                //alert(msg);
+                $("#divResult").html(msg);
+            },
+            error: function (req, status, error) {
+
+            }
+        });
+    }
+
+    function fnDiv() {
+        var x = parseInt($("#txtval1").val());
+        var y = parseInt($("#txtval2").val());
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Div", "Home")",
+            data: { num1: x, num2: y },
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+                //alert(msg);
+                $("#divResult").html(msg);
+            },
+            error: function (req, status, error) {
+
+            }
+        });
+    }
+</script>
